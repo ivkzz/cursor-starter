@@ -1,6 +1,4 @@
-# AI Layer — оркестратор (cursor-starter)
-
-**Назначение:** стартер для будущих проектов; AI-слой настраивается через `ai-layer-builder/ai-builder.md`.
+# AI Layer — оркестратор
 
 ## Как начинать задачу в Cursor
 
@@ -14,31 +12,27 @@
 
 | Путь | Роль |
 |------|------|
-| `ai-layer-builder/ai-builder.md` | Bootstrap AI-слоя (новый чат с этим файлом) |
-| `ai-layer-builder/spec-ai-layer.md` | Спецификация структуры этого файла |
-| `ai-layer-builder/spec-commands.md` | Как писать прочие `/` команды |
-| `.cursor/rules/` | Постоянные правила (`token-economy`, `core`, …) |
+| `src/` (или папка с кодом) | Основной код приложения |
+| `docs/` (или PROJECT_KNOWLEDGE.md) | Живая документация и архитектура |
+| `.cursor/rules/` | Постоянные правила (`token-economy`, `core`, `stack-specific`, …) |
 | `.cursorignore` | Исключения из индексации (тяжёлые каталоги, локи, секреты) — экономия контекста |
-| `.cursor/commands/` | Проектные slash-команды (`*.md` в репо), см. `spec-commands.md` — не путать с встроенными `/create-*` Cursor |
-| `.cursor/skills/` | Проектные skills (после bootstrap и по мере появления) |
+| `.cursor/commands/` | Проектные slash-команды (`*.md` в репо) |
+| `.cursor/skills/` | Проектные skills |
 
 ## Маршрутизация
 
 | Задача | Действие |
 |--------|----------|
-| Новое правило | Встроенная команда Cursor: `/create-rule` (не файл в этом репозитории) |
-| Новый хук | Встроенная команда Cursor: `/create-hook` |
-| Новый skill | Встроенная команда Cursor: `/create-skill` |
-| Полная настройка / обновление слоя | `@ai-layer-builder/ai-builder.md` (в т.ч. реестр глобальных скилов → правило, шаг 2.5) |
-| Структура оркестратора | `@ai-layer-builder/spec-ai-layer.md` |
-| Новая slash-команда (не create-*) | `@ai-layer-builder/spec-commands.md` |
+| Новая фича или баг | Создать/сверить План, обновить код, обновить Живую Документацию |
+| Вызов проектной команды | Использовать соответствующий slash-файл из `.cursor/commands/` |
+| Использование навыка | Использовать соответствующий навык из `.cursor/skills/` |
+| Обновление архитектуры | Отредактировать `.cursor/rules/`, `PROJECT_KNOWLEDGE.md` и этот файл |
 
 ## Ссылки на слой
 
-- **Rules**: `token-economy.mdc` (токены и модели), `core.mdc` (оркестратор, язык, дифф), `architecture.mdc`, `stack-specific.mdc` — см. `@.cursor/rules/`. После полного bootstrap по `ai-builder.md` может появиться правило **реестра глобальных скилов** (имя вроде `global-skills-routing.mdc`) — тогда держи в нём список «какой skill когда читать» и ссылайся на него отсюда одной строкой.
-- **Встроенные команды Cursor**: `/create-rule`, `/create-hook`, `/create-skill` — глобальные slash-команды редактора; ими создаёшь файлы в `.cursor/rules/`, хуки, `.cursor/skills/`.
-- **Проектные команды**: `.cursor/commands/*.md` — по `spec-commands.md`; при bootstrap см. **шаг 6** в `@ai-layer-builder/ai-builder.md`, если нужны свои `/`-сценарии (не путать с глобальными `/create-*`).
-- **Skills**: появятся в `.cursor/skills/` после bootstrap под конкретный проект.
+- **Правила (Rules)**: `token-economy.mdc`, `core.mdc`, `architecture.mdc`, `stack-specific.mdc` — см. `@.cursor/rules/`. Также см. реестр глобальных скилов (например, `project-skills-registry.mdc`), если применимо.
+- **Проектные команды (Commands)**: Вызывай через `/`-сценарии из `.cursor/commands/*.md`.
+- **Проектные навыки (Skills)**: Находятся в `.cursor/skills/`.
 
 ## Токены
 
@@ -51,4 +45,4 @@
 
 ## Обновление слоя
 
-Повторно открой чат с `@ai-layer-builder/ai-builder.md` после смены стека, крупного рефакторинга или «разъезда» `.cursor/`.
+Регулярно обновляй этот оркестратор, правила в `.cursor/rules/`, команды и `PROJECT_KNOWLEDGE.md` после смены стека, крупного рефакторинга или внедрения новых инструментов.
